@@ -56,6 +56,56 @@ file:/Users/chenzufeng/.gitconfig       user.name=chenzufeng
 file:/Users/chenzufeng/.gitconfig       user.email=chenzufeng@outlook.com
 ```
 
+## 配置验证信息
+
+由于本地 Git 仓库和 GitHub 仓库之间的传输是通过 SSH 加密的，所以我们需要配置验证信息，以便推送本地修改。
+
+使用以下命令生成 SSH Key ：
+
+```sh
+➜  ~ ssh-keygen -t rsa -C "chenzufeng@outlook.com"
+Generating public/private rsa key pair.
+Enter file in which to save the key (/Users/chenzufeng/.ssh/id_rsa): 
+Created directory '/Users/chenzufeng/.ssh'.
+Enter passphrase (empty for no passphrase): 
+Enter same passphrase again: 
+Your identification has been saved in /Users/chenzufeng/.ssh/id_rsa
+Your public key has been saved in /Users/chenzufeng/.ssh/id_rsa.pub
+The key fingerprint is:
+SHA256:Ty+gCI8WH+NUkslaimnj0tB9donLvzrFXKoo3OhjrQ8 chenzufeng@outlook.com
+The key's randomart image is:
++---[RSA 3072]----+
+|                 |
+|   . o           |
+|    * .          |
+| + = o . ..      |
+|+o* = +oSo.      |
+|oo.O B +=+ .     |
+|.oE+=.+o  o .    |
+|..*.+ o.   .     |
+| oo=. .oo.       |
++----[SHA256]-----+
+
+# 打开文件夹
+➜  .ssh open . 
+```
+
+复制 d_rsa.pub 中的内容，在 Github 页面 `Account->Setting->SSH and GPG keys` 中新建 `SSH key`。
+
+验证是否配置成功：
+
+```sh
+➜  .ssh ssh -T git@github.com                        
+The authenticity of host 'github.com (140.82.114.3)' can't be established.
+ED25519 key fingerprint is SHA256:+DiY3wvvV6TuJJhbpZisF/zLDA0zPMSvHdkr4UvCOqU.
+This key is not known by any other names
+Are you sure you want to continue connecting (yes/no/[fingerprint])? yes
+Warning: Permanently added 'github.com' (ED25519) to the list of known hosts.
+Hi chenzufeng2021! You've successfully authenticated, but GitHub does not provide shell access.
+```
+
+
+
 # Git 基础
 
 ## 获取仓库
@@ -119,6 +169,7 @@ git init
 git add README.md
 git commit -m "first commit"
 git branch -M main
+# 添加一个新的远程仓库，可以指定一个简单的名字，以便将来引用
 git remote add origin https://github.com/chenzufeng2021/Development.git
 git push -u origin main
 ```
